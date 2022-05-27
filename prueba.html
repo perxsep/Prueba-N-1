@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<h1>Dragon Balls The Kombat</h1>
+
+</head>
+<body>
+	<style type="text/css">
+	#ocean {
+			background-image: url("namek.jpg");
+			width: 860px;
+			height: 601px;
+		}
+		.player {
+			position: absolute;
+			background-image: url("player.png");
+			width: 50px;
+			height: 60px;
+		}
+		.enemy {
+			position: absolute;
+			background-image: url("enemy.png");
+			width: 50px;
+			height: 50px;
+      
+		}
+		.missile {
+			position: absolute;
+      background-image: url("disparo.png");
+			background-color: rgb(255, 77, 0);
+			width: 5px;
+			height: 10px;
+      padding: 3px;
+    }
+    .barrascell { 
+      position: absolute;
+      background-image: url("barrascell.png");
+      width: 190px;
+      height: 34px;
+      top: 80px;
+      left: 678px;
+    }
+    .barrasgoku {
+      position: absolute;
+      background-image: url("barrasgoku.png");
+      width: 190px;
+      height: 34px;
+    }
+    
+	</style>
+
+	<div id="ocean">
+		<div id="players"></div>
+		<div id="enemies"></div>
+		<div id="missiles"></div>
+    <div class="barrasgoku"></div>
+    <div class="barrascell"></div>
+	</div>
+
+	<script type="text/javascript">
+		var player = {
+			left: 450,
+			top: 700
+		}   
+		var enemies = [
+			{left: 350, top: 200},
+		]
+
+		var missiles = []
+
+		function drawPlayer() {
+			content = "<div class='player' style='left: "+player.left+"px; top: "+player.top+"px'></div>";
+			document.getElementById("players").innerHTML = content;
+		}
+
+		function drawEnemies() {
+			content = "";
+			for(var i=0; i<enemies.length; i++) {
+				content += "<div class='enemy' style='left: "+enemies[i].left+"px; top: "+enemies[i].top+"px'></div>";
+			}
+			document.getElementById("enemies").innerHTML = content;
+		}
+
+		function drawMissiles() {
+			content = "";
+			for(var i=0; i<missiles.length; i++) {
+				content += "<div class='missile' style='left: "+missiles[i].left+"px; top: "+missiles[i].top+"px'></div>";
+			}
+			document.getElementById("missiles").innerHTML = content;
+		}
+
+		function moveEnemies() {
+			for(var i=0; i<enemies.length; i++) {
+				enemies[i].top += 1;
+        
+			}
+		}
+
+		function moveMissiles() {
+			for(var i=0; i<missiles.length; i++) {
+				missiles[i].left -= 20;
+			}
+		}
+
+		document.onkeydown = function(e) {
+			if(e.keyCode == 37) {
+				if(player.left > 10) {
+					player.left -= 10;
+				}
+			}
+			if(e.keyCode == 39) {
+				if(player.left < 820) {
+					player.left += 10;
+				}
+			}
+			if(e.keyCode == 38) {
+				if(player.top > 110) {
+					player.top -= 10;
+				}
+			}
+			if(e.keyCode == 40) {
+				if(player.top < 760) {
+					player.top += 10;
+				}
+			}
+			if(e.keyCode == 32) {
+				missiles.push({left: player.left+51, top: player.top});
+				drawMissiles();
+			}
+			drawPlayer();
+		}
+
+		function gameLoop() {
+			moveEnemies();
+			moveMissiles();
+			drawPlayer();
+			drawEnemies();
+			drawMissiles();
+			setTimeout(gameLoop, 50);
+		}
+
+		gameLoop();
+    
+	</script>
+</body>
+</html>
